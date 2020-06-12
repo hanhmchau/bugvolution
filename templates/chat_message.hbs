@@ -1,0 +1,26 @@
+{{#if isContinuation}}
+    <div class="avatar-placeholder">
+    </div>
+    <div class="content">
+        <div class="message-timestamp">{{timeSince timestamp}}</div>
+        <span class="message-content">{{{content}}}</span>
+    </div>
+    
+{{else}}
+
+    <div class="avatar">
+        <img src="{{avatar}}" />
+    </div>
+    <div class="content">
+        <div class="message-timestamp">{{timeSince timestamp}}</div>
+        <span class="message-speaker">
+            {{#if isWhisper}}
+                {{speaker}}<span class="message-whisper-targets">{{getWhisperList whisperTo speaker}}</span>:
+            {{else}}
+                {{speaker}}:
+            {{/if}}
+        </span>
+        <span class="message-content">{{{content}}}</span>
+    </div>
+
+{{/if}}

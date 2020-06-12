@@ -1,0 +1,16 @@
+{
+	"name": "bugvolution",
+	"title": "Bugvolution",
+	"description": "A revolution in the war of chat log interface.",
+	"version": "0.0.1",
+	"minimumCoreVersion": "0.5.5",
+	"compatibleCoreVersion": "0.6.2",
+	"author": "Arietta",
+
+	"scripts": [],
+	"esmodules": [
+    "main.js", 
+    "scripts/**/*.js", 
+    "libs/**/*.js"],
+	"styles": ["./css/style.css"]
+}
