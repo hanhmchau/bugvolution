@@ -1,12 +1,16 @@
 $background-whisper: #F2F5D3;
 $background-normal: #F1F1F1;
+$background-emote: rgb(245, 228, 211);
 
 $top-border-whisper: #F0F092;
 $top-border-normal:#E1E1E1;
+$top-border-emote: rgb(240, 195, 146);
 
 $color-timestamp: rgb(102, 102, 102);
 $color-whisper-targets: rgb(78, 78, 78);
+$color-emote: rgb(101, 62, 16);
 $color-text: rgb(64, 64, 64);
+$color-white-text: #ececec;
 
 $avatar-width: 28px;
 
@@ -36,13 +40,13 @@ $avatar-width: 28px;
     flex-direction: row;
     padding: 0 5px 5px 8px;
 
+    img {
+        border: none;
+        width: $avatar-width;    
+    }
+
     & .avatar {
         flex: none;
-
-        img {
-            border: none;
-            width: $avatar-width;    
-        }
     }
 
     & .content {
@@ -90,5 +94,72 @@ $avatar-width: 28px;
             display: none;
         }
     }
+
+    &.emote {
+        background-color: $background-emote;
+        border: none;
+        border-top: 2px solid $top-border-emote;
+        padding-bottom: 0;
+
+        & .avatar {
+            padding-top: 4px;
+        }
+
+        & .message-sender, & .message-metadata, & .message-timestamp {
+            display: none;
+        }
+
+        & .message-header img {
+            width: $avatar-width !important;
+            height: $avatar-width !important;
+        }
+
+        & .content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            line-height: 1.15rem;
+
+            & .message-content {
+                font-style: italic;
+                font-weight: bold;
+                text-align: center;
+                color: $color-emote;   
+                padding: 4px 0; 
+            }
+        }
+    }
+}
+
+#chat-controls {
+    margin-top: 3px;
+
+    & .typing-notify {
+        color: $color-white-text;
+        background: none;
+        
+        & .notify-text {
+            font-size: 13px;
+        }
+
+        & .dot {
+            color: $color-white-text;
+            width: 4px;
+            height: 4px;
+        }
+    }
 }
   
+#chat-form {
+    margin: 0 4px 4px;
+    padding-bottom: 20px;
+
+    & #chat-message {
+        outline: none;
+
+        &:focus {
+            outline: none;
+            box-shadow: none;
+        }
+    }
+}

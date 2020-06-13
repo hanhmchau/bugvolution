@@ -1,4 +1,6 @@
-export default class InCharacterMessage {
+import AbstractMessage from './message.js';
+
+export default class InCharacterMessage extends AbstractMessage {
 	static CLASS_NAMES = {
 		MODIFIED: "modified",
 		LEADING: "leading", // first message in a group of messages
@@ -46,6 +48,7 @@ export default class InCharacterMessage {
 				isWhisper,
 				isContinuation,
 			};
+
 			renderTemplate(this.TEMPLATES.CHAT_MESSAGE, renderData).then((renderedHTML) => {
 				$(html).html(renderedHTML);
 			});
@@ -58,7 +61,8 @@ export default class InCharacterMessage {
 	 */
 	static isValidGroupableType(chatMessage) {
 		const groupableMessageTypes = [CHAT_MESSAGE_TYPES.OOC, CHAT_MESSAGE_TYPES.IC, CHAT_MESSAGE_TYPES.WHISPER];
-		return groupableMessageTypes.includes(chatMessage.data.type);
+		return groupableMessageTypes.includes(chatMessage.data.type) && 
+		chatMessage.data.speaker.alias !== '#CGMP_DESCRIPTION'; // to play nice with Cautious Gamemaster's Pack's /desc command
 	}
 
 	/**
@@ -68,10 +72,33 @@ export default class InCharacterMessage {
 	 * @param {*} nextMessage
 	 */
 	static isContinuationFromPreviousMessage(prevMessage, nextMessage) {
-		const isFromTheSameActor = prevMessage.speaker.token === nextMessage.speaker.token;
-		const sameWhisperRecipients = this.sameWhisperRecipients(prevMessage, nextMessage);
 		const isTheSameGroupableType = prevMessage.type === nextMessage.type; // nextMessage.type is already confirmed to be groupable
+		const isFromTheSameActor = this.isFromTheSameActor(prevMessage, nextMessage);
+		const sameWhisperRecipients = this.sameWhisperRecipients(prevMessage, nextMessage);
 		return isFromTheSameActor && sameWhisperRecipients && isTheSameGroupableType;
+	}
+
+	/**
+	 * Returns whether two speakers are the same.
+	 * @param {*} prevMessage 
+	 * @param {*} nextMessage 
+	 */
+	static isFromTheSameActor(prevMessage, nextMessage) {
+		const prevSpeaker = prevMessage.speaker;
+		const nextSpeaker = nextMessage.speaker;
+		const isWhisper = nextMessage.type === CHAT_MESSAGE_TYPES.WHISPER;
+		const isOOC = nextMessage.type === CHAT_MESSAGE_TYPES.OOC;
+
+		if (prevSpeaker.token || nextSpeaker.token) {
+			return prevSpeaker.token === nextSpeaker.token;
+		}
+		if (prevSpeaker.alias || nextSpeaker.alias) {
+			return prevSpeaker.alias.localeCompare(nextSpeaker.alias) === 0;
+		}
+		if (isWhisper || isOOC) {
+			return prevSpeaker.user === nextSpeaker.user;
+		}
+		return false;
 	}
 
 	/**
@@ -104,54 +131,4 @@ export default class InCharacterMessage {
 			return game.messages.entries[index - 1];
 		}
 	}
-
-	/**
-	 * Load the appropriate actor for a given message, leveraging token or actor or actor search.
-	 * @param {*} speaker
-	 */
-	static loadActorForChatMessage(messageData) {
-		const speaker = messageData.message.speaker;
-		let actor;
-		if (speaker.token) {
-			actor = game.actors.tokens[speaker.token];
-		}
-		if (!actor) {
-			actor = game.actors.get(speaker.actor);
-		}
-		if (!actor) {
-			game.actors.forEach((value) => {
-				if (value.name === speaker.alias) {
-					actor = value;
-				}
-			});
-		}
-		return actor;
-	}
-
-	/**
-	 * @param {*} actor
-	 */
-	static getChatTokenImage(actor) {
-		if (actor) return actor.token ? actor.token.data.img : actor.data.token.img;
-		return "";
-	}
-
-	static getWhisperTargets(names, speaker) {
-		if (typeof names === "string" && names.localeCompare(speaker) !== 0) {
-			return ` (To ${names})`;
-		}
-		if (names && names.join) {
-			const namesString = names.filter((name) => name.localeCompare(speaker) === 0).join();
-			return ` (To ${namesString})`;
-		}
-		return "";
-	}
-
-	static _addClass = (html, className) => {
-		html.addClass(className);
-	};
-
-	static _warn = (content) => {
-		console.warn(`MESSAGE GROUPING | ${content}`);
-	};
 }

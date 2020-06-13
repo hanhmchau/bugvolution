@@ -1,5 +1,7 @@
 import * as markdownIt from "../libs/markdown-it.js";
-const md = window.MarkdownIt();
+const md = window.MarkdownIt({
+	html: true
+});
 
 export default class MarkdownMessage {
 	static process(chatMessage, html, messageData) {

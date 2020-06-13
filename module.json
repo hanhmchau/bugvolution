@@ -12,5 +12,8 @@
     "main.js", 
     "scripts/**/*.js", 
     "libs/**/*.js"],
-	"styles": ["./css/style.css"]
+	"styles": ["./css/**/*.css"],
+
+	"url": "https://github.com/hanhmchau/bugvolution",
+	"manifest": "https://raw.githubusercontent.com/hanhmchau/bugvolution/master/module.json"
 }

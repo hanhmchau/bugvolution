@@ -2,6 +2,7 @@
 
 import InCharacterMessage from "./scripts/ic.js";
 import MarkdownMessage from "./scripts/markdown.js";
+import EmoteMessage from "./scripts/emote.js";
 
 /**
  * Valid Foundry.js chat message type
@@ -19,10 +20,11 @@ import MarkdownMessage from "./scripts/markdown.js";
 /**
  * Main class wrapper for all of our features.
  */
-class MessageGrouping {
+class ChatMessageStyler {
 	static onRenderChatMessage(chatMessage, html, messageData) {
 		MarkdownMessage.process(chatMessage, html, messageData);
 		InCharacterMessage.process(chatMessage, html, messageData);
+		EmoteMessage.process(chatMessage, html, messageData);
 	}
 }
 
@@ -38,7 +40,7 @@ Hooks.once("init", () => {
  * This line connects our method above with the chat rendering.
  * Note that this happens after the core code has already generated HTML.
  */
-Hooks.on("renderChatMessage", MessageGrouping.onRenderChatMessage.bind(MessageGrouping));
+Hooks.on("renderChatMessage", ChatMessageStyler.onRenderChatMessage.bind(ChatMessageStyler));
 
 class ChatMessageContextMenu {
 	static onGetEntryContext(html, entryOptions) {
@@ -47,3 +49,5 @@ class ChatMessageContextMenu {
 }
 
 Hooks.on("getChatLogEntryContext", ChatMessageContextMenu.onGetEntryContext.bind(ChatMessageContextMenu));
+
+Hooks.on("preCreateChatMessage", EmoteMessage.resolveMeCommand.bind(EmoteMessage));
