@@ -9,11 +9,11 @@
 
 	"scripts": [],
 	"esmodules": [
-    "main.js", 
-    "scripts/**/*.js", 
-    "libs/**/*.js"],
+		"main.js", 
+		"scripts/**/*.js", 
+		"libs/**/*.js"],
 	"styles": ["./css/**/*.css"],
-
 	"url": "https://github.com/hanhmchau/bugvolution",
-	"manifest": "https://raw.githubusercontent.com/hanhmchau/bugvolution/master/module.json"
+	"manifest": "https://raw.githubusercontent.com/hanhmchau/bugvolution/master/module.json",
+	"download": "https://github.com/hanhmchau/bugvolution/releases/download/v.0.0.1-alpha/bugvolution-master.zip"
 }
