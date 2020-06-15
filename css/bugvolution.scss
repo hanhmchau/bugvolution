@@ -15,6 +15,10 @@ $color-white-text: #ececec;
 $avatar-width: 28px;
 
 #chat-log .message {
+    border-radius: 0;
+}
+
+#chat-log .message.roll-ui {
     // RESET MESSAGE
     border-radius: unset;
     margin: 0;
@@ -24,10 +28,33 @@ $avatar-width: 28px;
     background: none;
 
     background-color: $background-normal;
-    // END RESET MESSAGE    
+    // END RESET MESSAGE
 }
 
-#chat-log .message.modified {
+#chat-log .message.lite-ui.modified {
+    padding: 5px 7px;
+
+    &.leading {
+        border-bottom: none;
+        margin-bottom: 0;
+    }
+
+    &.continued {
+        .message-header {
+            display: none;
+        }
+        border-top: none;
+        border-bottom: none;
+        margin: 0 3px;
+    }
+    
+    &.whisper {
+        background: none;
+        background-color: $background-whisper;
+    }
+}
+
+#chat-log .message.roll-ui.modified {
     border: none;
     background: none;
 

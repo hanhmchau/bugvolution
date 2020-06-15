@@ -1,4 +1,8 @@
 #chat-log .message {
+  border-radius: 0;
+}
+
+#chat-log .message.roll-ui {
   border-radius: unset;
   margin: 0;
   border-left: none;
@@ -8,7 +12,31 @@
   background-color: #F1F1F1;
 }
 
-#chat-log .message.modified {
+#chat-log .message.lite-ui.modified {
+  padding: 5px 7px;
+}
+
+#chat-log .message.lite-ui.modified.leading {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+#chat-log .message.lite-ui.modified.continued {
+  border-top: none;
+  border-bottom: none;
+  margin: 0 3px;
+}
+
+#chat-log .message.lite-ui.modified.continued .message-header {
+  display: none;
+}
+
+#chat-log .message.lite-ui.modified.whisper {
+  background: none;
+  background-color: #F2F5D3;
+}
+
+#chat-log .message.roll-ui.modified {
   border: none;
   background: none;
   background-color: #F1F1F1;
@@ -24,88 +52,88 @@
   padding: 0 5px 5px 8px;
 }
 
-#chat-log .message.modified img {
+#chat-log .message.roll-ui.modified img {
   border: none;
   width: 28px;
 }
 
-#chat-log .message.modified .avatar {
+#chat-log .message.roll-ui.modified .avatar {
   -webkit-box-flex: 0;
       -ms-flex: none;
           flex: none;
 }
 
-#chat-log .message.modified .content {
+#chat-log .message.roll-ui.modified .content {
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
   padding: 1px 0 1px 10px;
 }
 
-#chat-log .message.modified .content .message-timestamp {
+#chat-log .message.roll-ui.modified .content .message-timestamp {
   font-size: 0.8em;
   color: #666666;
   margin-bottom: 4px;
 }
 
-#chat-log .message.modified .content .message-speaker {
+#chat-log .message.roll-ui.modified .content .message-speaker {
   font-weight: bold;
 }
 
-#chat-log .message.modified .content .message-content {
+#chat-log .message.roll-ui.modified .content .message-content {
   color: #404040;
 }
 
-#chat-log .message.modified.whisper {
+#chat-log .message.roll-ui.modified.whisper {
   background-color: #F2F5D3;
   border: none;
   border-top: 2px solid #F0F092;
 }
 
-#chat-log .message.modified.whisper .message-whisper-targets {
+#chat-log .message.roll-ui.modified.whisper .message-whisper-targets {
   font-weight: normal;
 }
 
-#chat-log .message.modified.leading {
+#chat-log .message.roll-ui.modified.leading {
   padding-top: 4px;
 }
 
-#chat-log .message.modified.continued {
+#chat-log .message.roll-ui.modified.continued {
   border-top: none;
 }
 
-#chat-log .message.modified.continued .avatar-placeholder {
+#chat-log .message.roll-ui.modified.continued .avatar-placeholder {
   -webkit-box-flex: 0;
       -ms-flex: none;
           flex: none;
   width: 28px;
 }
 
-#chat-log .message.modified.continued .message-timestamp {
+#chat-log .message.roll-ui.modified.continued .message-timestamp {
   display: none;
 }
 
-#chat-log .message.modified.emote {
+#chat-log .message.roll-ui.modified.emote {
   background-color: #f5e4d3;
   border: none;
   border-top: 2px solid #f0c392;
   padding-bottom: 0;
 }
 
-#chat-log .message.modified.emote .avatar {
+#chat-log .message.roll-ui.modified.emote .avatar {
   padding-top: 4px;
 }
 
-#chat-log .message.modified.emote .message-sender, #chat-log .message.modified.emote .message-metadata, #chat-log .message.modified.emote .message-timestamp {
+#chat-log .message.roll-ui.modified.emote .message-sender, #chat-log .message.roll-ui.modified.emote .message-metadata, #chat-log .message.roll-ui.modified.emote .message-timestamp {
   display: none;
 }
 
-#chat-log .message.modified.emote .message-header img {
+#chat-log .message.roll-ui.modified.emote .message-header img {
   width: 28px !important;
   height: 28px !important;
 }
 
-#chat-log .message.modified.emote .content {
+#chat-log .message.roll-ui.modified.emote .content {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -118,7 +146,7 @@
   line-height: 1.15rem;
 }
 
-#chat-log .message.modified.emote .content .message-content {
+#chat-log .message.roll-ui.modified.emote .content .message-content {
   font-style: italic;
   font-weight: bold;
   text-align: center;
@@ -159,4 +187,4 @@
   -webkit-box-shadow: none;
           box-shadow: none;
 }
-/*# sourceMappingURL=style.css.map */
+/*# sourceMappingURL=bugvolution.css.map */

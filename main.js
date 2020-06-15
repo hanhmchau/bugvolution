@@ -3,6 +3,7 @@
 import InCharacterMessage from "./scripts/ic.js";
 import MarkdownMessage from "./scripts/markdown.js";
 import EmoteMessage from "./scripts/emote.js";
+import { ModuleSettings } from "./scripts/settings.js";
 
 /**
  * Valid Foundry.js chat message type
@@ -34,6 +35,7 @@ class ChatMessageStyler {
 Hooks.once("init", () => {
 	console.log("Hello initiating Message Grouping");
 	InCharacterMessage.init();
+	ModuleSettings.registerSettings();
 });
 
 /**

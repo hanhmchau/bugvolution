@@ -1,8 +1,11 @@
 import AbstractMessage from './message.js';
+import { ModuleOptions, ModuleSettings } from "./settings.js";
 
 export default class InCharacterMessage extends AbstractMessage {
 	static CLASS_NAMES = {
 		MODIFIED: "modified",
+		ROLL_UI: "roll-ui",
+		LITE_UI: "lite-ui",
 		LEADING: "leading", // first message in a group of messages
 		CONTINUED: "continued", // all messages following
 	};
@@ -18,11 +21,17 @@ export default class InCharacterMessage extends AbstractMessage {
 	}
 
 	static process(chatMessage, html, messageData) {
+		const isLiteMode = ModuleSettings.getSetting(ModuleOptions.LITE_MODE);
+		if (isLiteMode) {
+			this._addClass(html, this.CLASS_NAMES.LITE_UI);
+		} else {
+			this._addClass(html, this.CLASS_NAMES.ROLL_UI);
+		}
+
 		// ADD CONTINUATION CLASS
 		if (this.isValidGroupableType(chatMessage)) {
 			// DELETE INLINE STYLES
 			$(html).removeAttr("style");
-
 			this._addClass(html, this.CLASS_NAMES.MODIFIED);
 
 			const previousMessage = this.loadPreviousMessage(chatMessage);
@@ -34,6 +43,8 @@ export default class InCharacterMessage extends AbstractMessage {
 				} else {
 					this._addClass(html, this.CLASS_NAMES.LEADING);
 				}
+			} else {
+				this._addClass(html, this.CLASS_NAMES.LEADING);
 			}
 
 			const actor = this.loadActorForChatMessage(messageData);
@@ -49,9 +60,11 @@ export default class InCharacterMessage extends AbstractMessage {
 				isContinuation,
 			};
 
-			renderTemplate(this.TEMPLATES.CHAT_MESSAGE, renderData).then((renderedHTML) => {
-				$(html).html(renderedHTML);
-			});
+			if (!isLiteMode) {
+				renderTemplate(this.TEMPLATES.CHAT_MESSAGE, renderData).then((renderedHTML) => {
+					$(html).html(renderedHTML);
+				});
+			}
 		}
 	}
 
