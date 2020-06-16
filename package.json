@@ -17,6 +17,9 @@
   },
   "homepage": "https://github.com/hanhmchau/bugvolution#readme",
   "devDependencies": {
-    "gulp": "^4.0.2"
+    "gulp": "^4.0.2",
+    "gulp-concat": "^2.6.1",
+    "gulp-sass": "^4.1.0",
+    "node-sass": "^4.14.1"
   }
 }
