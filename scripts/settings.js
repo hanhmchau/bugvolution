@@ -9,7 +9,7 @@ export class ModuleSettings {
         game.settings.register(this.MODULE_NAME, 'liteMode', {
             name: "bugvolution.litemode-s",
             hint: "bugvolution.litemode-l",
-            scope: "world",
+            scope: "client",
             config: true,
             default: false,
             type: Boolean,
