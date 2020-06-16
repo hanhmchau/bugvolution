@@ -14,7 +14,12 @@
     background: none;
 
     background-color: $background-normal;
+    font-family: Helvetica, sans-serif;
     // END RESET MESSAGE
+}
+
+#chat-log .message.roll-ui:not(.modified) {
+    padding: 6px;
 }
 
 #chat-log .message.lite-ui.modified {
@@ -33,11 +38,6 @@
         border-bottom: none;
         margin: 0 3px;
     }
-    
-    &.whisper {
-        background: none;
-        background-color: $background-whisper;
-    }
 }
 
 #chat-log .message.roll-ui.modified {
@@ -47,15 +47,13 @@
     background-color: $background-normal;
     border-top: 2px solid $top-border-normal;
 
-    font-family: Helvetica, sans-serif;
-
     display: flex;
     flex-direction: row;
     padding: 0 5px 5px 8px;
 
     img {
         border: none;
-        width: $avatar-width;    
+        width: $avatar-width;
     }
 
     & .avatar {
@@ -79,6 +77,31 @@
         & .message-content {
             color: $color-text;
         }
+    }
+
+    & .roll-content {
+        flex-basis: auto;
+        width: 100%;
+
+        & .chat-card {
+            border: none;
+
+            & .card-header {
+                border-top: none;
+            }
+        }
+
+        & .red-full {
+            margin: 2px;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid $roll-template-border;
+            background-color: $roll-template-background;
+        }
+    }
+
+    &.roll {
+        flex-wrap: wrap;
     }
 
     &.whisper {

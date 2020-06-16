@@ -21,7 +21,9 @@
                 {{speaker}}:
             {{/if}}
         </span>
-        <span class="message-content">{{{content}}}</span>
+        {{#unless isRoll}}<span class="message-content">{{{content}}}</span>{{/unless}}
     </div>
-
+    {{#if isRoll}}
+        <div class="roll-content">{{{content}}}</div>
+    {{/if}}
 {{/if}}

@@ -7,7 +7,8 @@ export default class InCharacterMessage extends AbstractMessage {
 		ROLL_UI: "roll-ui",
 		LITE_UI: "lite-ui",
 		LEADING: "leading", // first message in a group of messages
-		CONTINUED: "continued", // all messages following
+		CONTINUED: "continued", // all messages following,
+		ROLL: "roll"
 	};
 
 	static TEMPLATES = {
@@ -28,44 +29,76 @@ export default class InCharacterMessage extends AbstractMessage {
 			this._addClass(html, this.CLASS_NAMES.ROLL_UI);
 		}
 
+		const actor = this.loadActorForChatMessage(messageData);
+		const isWhisper = chatMessage.data.type === CHAT_MESSAGE_TYPES.WHISPER;
+		const isDiceRoll = chatMessage.data.type === CHAT_MESSAGE_TYPES.ROLL;
+		const isRerenderableType = this.isRerenderableType(chatMessage);
+		const isRollTemplate = this.isDiceRollTemplate(chatMessage, html);
+		const isRoll = isRollTemplate || isDiceRoll;
+
+		let renderData = {
+			avatar: this.getChatTokenImage(actor),
+			timestamp: messageData.message.timestamp,
+			speaker: messageData.alias,
+			content: messageData.message.content,
+			whisperTo: messageData.whisperTo,
+			isWhisper,
+			isRoll
+		};
+		if (isRerenderableType) {
+			this._addClass(html, this.CLASS_NAMES.MODIFIED);
+		}
+		if (isRoll) {
+			this._addClass(html, this.CLASS_NAMES.ROLL);
+		}
+
+		let isContinuation = false;
 		// ADD CONTINUATION CLASS
 		if (this.isValidGroupableType(chatMessage)) {
 			// DELETE INLINE STYLES
 			$(html).removeAttr("style");
-			this._addClass(html, this.CLASS_NAMES.MODIFIED);
 
 			const previousMessage = this.loadPreviousMessage(chatMessage);
-			let isContinuation = false;
 			if (previousMessage) {
 				isContinuation = this.isContinuationFromPreviousMessage(previousMessage.data, chatMessage.data);
-				if (isContinuation) {
-					this._addClass(html, this.CLASS_NAMES.CONTINUED);
-				} else {
-					this._addClass(html, this.CLASS_NAMES.LEADING);
-				}
-			} else {
-				this._addClass(html, this.CLASS_NAMES.LEADING);
 			}
-
-			const actor = this.loadActorForChatMessage(messageData);
-			const isWhisper = chatMessage.data.type === CHAT_MESSAGE_TYPES.WHISPER;
-
-			const renderData = {
-				avatar: this.getChatTokenImage(actor),
-				timestamp: messageData.message.timestamp,
-				speaker: messageData.alias,
-				content: messageData.message.content,
-				whisperTo: messageData.whisperTo,
-				isWhisper,
-				isContinuation,
-			};
-
-			if (!isLiteMode) {
-				renderTemplate(this.TEMPLATES.CHAT_MESSAGE, renderData).then((renderedHTML) => {
-					$(html).html(renderedHTML);
-				});
-			}
+			renderData.isContinuation = isContinuation;
 		}
+		if (isContinuation) {
+			this._addClass(html, this.CLASS_NAMES.CONTINUED);
+		} else {
+			this._addClass(html, this.CLASS_NAMES.LEADING);
+		}
+		
+		if (!isLiteMode && isRerenderableType) {
+			renderTemplate(this.TEMPLATES.CHAT_MESSAGE, renderData).then((renderedHTML) => {
+				$(html).html(renderedHTML);
+			});
+		}
+	}
+
+	/**
+	 * Returns a message is a dice roll template
+	 * @param {*} chatMessage
+	 * @param {*} html
+	 */
+	static isDiceRollTemplate(chatMessage, html) {
+		return $(html).find('.dnd5e.red-full').length > 0;
+	}
+
+	/**
+	 * Returns a message is a valid rerenderable type
+	 * @param {*} chatMessage
+	 */
+	static isRerenderableType(chatMessage) {
+		const groupableMessageTypes = [CHAT_MESSAGE_TYPES.OOC, 
+			CHAT_MESSAGE_TYPES.IC,
+			CHAT_MESSAGE_TYPES.WHISPER,
+			CHAT_MESSAGE_TYPES.OTHER,
+			CHAT_MESSAGE_TYPES.ROLL
+		];
+		return groupableMessageTypes.includes(chatMessage.data.type) && 
+		chatMessage.data.speaker.alias !== '#CGMP_DESCRIPTION';
 	}
 
 	/**
