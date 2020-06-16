@@ -2,7 +2,7 @@
 	"name": "bugvolution",
 	"title": "Bugvolution",
 	"description": "A revolution in the war of chat log interface.",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"minimumCoreVersion": "0.5.5",
 	"compatibleCoreVersion": "0.6.2",
 	"author": "Arietta",
