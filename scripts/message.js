@@ -34,11 +34,14 @@ export default class AbstractMessage {
 	}
 
 	static getWhisperTargets(names, speaker) {
-		if (typeof names === "string" && names.localeCompare(speaker) !== 0) {
+		if (typeof names === "string" && names.trim().length === 0) {
+			return "";
+		}
+		if (typeof names === "string" && names !== speaker) {
 			return ` (To ${names})`;
 		}
 		if (names && names.join) {
-			const namesString = names.filter((name) => name.localeCompare(speaker) === 0).join();
+			const namesString = names.filter((name) => name !== speaker).join();
 			return ` (To ${namesString})`;
 		}
 		return "";

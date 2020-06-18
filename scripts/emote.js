@@ -28,6 +28,7 @@ export default class EmoteMessage extends AbstractMessage {
 				};
 				renderTemplate(this.TEMPLATES.EMOTE_MESSAGE, renderData).then((renderedHTML) => {
 					$(html).html(renderedHTML);
+					ui.chat.scrollBottom();
 				});
 			}
 		}

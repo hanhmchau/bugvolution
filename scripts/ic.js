@@ -73,6 +73,7 @@ export default class InCharacterMessage extends AbstractMessage {
 		if (!isLiteMode && isRerenderableType) {
 			renderTemplate(this.TEMPLATES.CHAT_MESSAGE, renderData).then((renderedHTML) => {
 				$(html).html(renderedHTML);
+				ui.chat.scrollBottom();
 			});
 		}
 	}
@@ -135,11 +136,11 @@ export default class InCharacterMessage extends AbstractMessage {
 		const isWhisper = nextMessage.type === CHAT_MESSAGE_TYPES.WHISPER;
 		const isOOC = nextMessage.type === CHAT_MESSAGE_TYPES.OOC;
 
-		if (prevSpeaker.token || nextSpeaker.token) {
+		if (prevSpeaker.token) {
 			return prevSpeaker.token === nextSpeaker.token;
 		}
-		if (prevSpeaker.alias || nextSpeaker.alias) {
-			return prevSpeaker.alias.localeCompare(nextSpeaker.alias) === 0;
+		if (prevSpeaker.alias) {
+			return prevSpeaker.alias === nextSpeaker.alias;
 		}
 		if (isWhisper || isOOC) {
 			return prevSpeaker.user === nextSpeaker.user;

@@ -5,7 +5,6 @@ const md = window.MarkdownIt({
 
 export default class MarkdownMessage {
 	static process(chatMessage, html, messageData) {
-		console.log(this.isMarkdownkable(chatMessage));
 		if (this.isMarkdownkable(chatMessage)) {
 			const markdown = md.renderInline(chatMessage.data.content);
 			messageData.message.content = markdown;
