@@ -6,7 +6,7 @@ export class ModuleSettings {
     static MODULE_NAME = 'bugvolution';
 
 	static registerSettings() {
-        game.settings.register(this.MODULE_NAME, 'liteMode', {
+        game.settings.register(this.MODULE_NAME, ModuleOptions.LITE_MODE, {
             name: "bugvolution.litemode-s",
             hint: "bugvolution.litemode-l",
             scope: "client",

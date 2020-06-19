@@ -4,6 +4,7 @@ import InCharacterMessage from "./scripts/ic.js";
 import MarkdownMessage from "./scripts/markdown.js";
 import EmoteMessage from "./scripts/emote.js";
 import { ModuleSettings } from "./scripts/settings.js";
+import AutoscrollCombatTracker from "./scripts/combat-tracker.js";
 
 /**
  * Valid Foundry.js chat message type
@@ -33,9 +34,9 @@ class ChatMessageStyler {
  * These hooks register the following settings in the module settings.
  */
 Hooks.once("init", () => {
-	console.log("Hello initiating Message Grouping");
 	InCharacterMessage.init();
 	ModuleSettings.registerSettings();
+	CONFIG.ui.combat = AutoscrollCombatTracker;
 });
 
 /**

@@ -1,0 +1,27 @@
+@import 'variables';
+
+#combat-popout {
+    background-color: $background-combatant;
+}
+
+#combat-tracker {
+    & li.combatant {
+        padding: 3px 0;
+
+        & .token-name {
+            text-shadow: none;
+        }
+
+        & .initiative {
+            font-size: 18px;
+        }
+        
+        &.active {
+            background-color: $background-combatant-active;
+
+            & .combatant-control {
+                color: $color-combatant-active;
+            }    
+        }
+    }
+}
