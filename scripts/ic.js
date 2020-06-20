@@ -12,7 +12,7 @@ export default class InCharacterMessage extends AbstractMessage {
 	};
 
 	static TEMPLATES = {
-		CHAT_MESSAGE: "modules/bugvolution/templates/chat_message.hbs",
+		CHAT_MESSAGE: "modules/bugvolution/templates/chat_message.hbs"
 	};
 
 	static init() {
