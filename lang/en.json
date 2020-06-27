@@ -1,5 +1,7 @@
 {
     "bugvolution.litemode-s": "Enable lite mode UI",
-    "bugvolution.litemode-l": "Enable lite mode UI for chat log section which only supports message grouping and disable roll20-esque UI."
+    "bugvolution.litemode-l": "Enable lite mode UI for chat log section which only supports message grouping and disable roll20-esque UI.",
+    "bugvolution.markdown-s": "Enable Markdown",
+    "bugvolution.markdown-l": "Enable processing Markdown formatting in chat messages."
 }
   

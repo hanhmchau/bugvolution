@@ -1,5 +1,12 @@
 export default class AutoscrollCombatTracker extends CombatTracker {
 	/** @override */
+	static get defaultOptions() {
+		return mergeObject(super.defaultOptions, {
+			originalClass: CombatTracker,
+			baseApplication: "CombatTracker"
+		});
+	}
+	/** @override */
 	/**
 	 * Scroll the combat log container to ensure the current Combatant turn is centered vertically
 	 */

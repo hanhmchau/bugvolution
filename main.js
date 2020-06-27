@@ -3,7 +3,7 @@
 import InCharacterMessage from "./scripts/ic.js";
 import MarkdownMessage from "./scripts/markdown.js";
 import EmoteMessage from "./scripts/emote.js";
-import { ModuleSettings } from "./scripts/settings.js";
+import { ModuleSettings, ModuleOptions } from "./scripts/settings.js";
 import AutoscrollCombatTracker from "./scripts/combat-tracker.js";
 
 /**
@@ -24,7 +24,9 @@ import AutoscrollCombatTracker from "./scripts/combat-tracker.js";
  */
 class ChatMessageStyler {
 	static onRenderChatMessage(chatMessage, html, messageData) {
-		MarkdownMessage.process(chatMessage, html, messageData);
+		if (ModuleSettings.getSetting(ModuleOptions.MARKDOWN)) {
+			MarkdownMessage.process(chatMessage, html, messageData);
+		}
 		InCharacterMessage.process(chatMessage, html, messageData);
 		EmoteMessage.process(chatMessage, html, messageData);
 	}
