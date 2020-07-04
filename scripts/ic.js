@@ -143,7 +143,7 @@ export default class InCharacterMessage extends AbstractMessage {
 			return prevSpeaker.alias === nextSpeaker.alias;
 		}
 		if (isWhisper || isOOC) {
-			return prevSpeaker.user === nextSpeaker.user;
+			return prevMessage.user === nextMessage.user;
 		}
 		return false;
 	}
@@ -173,9 +173,13 @@ export default class InCharacterMessage extends AbstractMessage {
 	 * @param {*} messageData
 	 */
 	static loadPreviousMessage(chatMessage) {
-		const index = game.messages.entries.indexOf(chatMessage);
-		if (index > 0) {
-			return game.messages.entries[index - 1];
+		const messages = game.messages.entries;
+		let index = messages.indexOf(chatMessage);
+		while (index - 1 >= 0) {
+			if (messages[index - 1].visible) {
+				return messages[index - 1];
+			}
+			index--;
 		}
 	}
 }
