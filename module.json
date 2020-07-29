@@ -2,9 +2,9 @@
 	"name": "bugvolution",
 	"title": "Bugvolution",
 	"description": "A revolution in the war of chat log interface.",
-	"version": "0.0.8",
+	"version": "0.0.9",
 	"minimumCoreVersion": "0.5.5",
-	"compatibleCoreVersion": "0.6.2",
+	"compatibleCoreVersion": "0.6.5",
 	"author": "Arietta",
 
 	"scripts": [],
@@ -24,5 +24,5 @@
 	
 	"url": "https://github.com/hanhmchau/bugvolution",
 	"manifest": "https://raw.githubusercontent.com/hanhmchau/bugvolution/master/module.json",
-	"download": "https://github.com/hanhmchau/bugvolution/archive/v0.0.8.zip"
+	"download": "https://github.com/hanhmchau/bugvolution/archive/v0.0.9.zip"
 }

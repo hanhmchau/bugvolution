@@ -1,24 +1,24 @@
 import AbstractMessage from './message.js';
-import { ModuleOptions, ModuleSettings } from "./settings.js";
+import { ModuleOptions, ModuleSettings } from './settings.js';
 
 export default class InCharacterMessage extends AbstractMessage {
 	static CLASS_NAMES = {
-		MODIFIED: "modified",
-		ROLL_UI: "roll-ui",
-		LITE_UI: "lite-ui",
-		LEADING: "leading", // first message in a group of messages
-		CONTINUED: "continued", // all messages following,
-		ROLL: "roll"
+		MODIFIED: 'modified',
+		ROLL_UI: 'roll-ui',
+		LITE_UI: 'lite-ui',
+		LEADING: 'leading', // first message in a group of messages
+		CONTINUED: 'continued', // all messages following,
+		ROLL: 'roll'
 	};
 
 	static TEMPLATES = {
-		CHAT_MESSAGE: "modules/bugvolution/templates/chat_message.hbs"
+		CHAT_MESSAGE: 'modules/bugvolution/templates/chat_message.hbs'
 	};
 
 	static init() {
 		loadTemplates([this.TEMPLATES.CHAT_MESSAGE]);
 
-		Handlebars.registerHelper("getWhisperList", this.getWhisperTargets);
+		Handlebars.registerHelper('getWhisperList', this.getWhisperTargets);
 	}
 
 	static process(chatMessage, html, messageData) {
@@ -35,6 +35,7 @@ export default class InCharacterMessage extends AbstractMessage {
 		const isRerenderableType = this.isRerenderableType(chatMessage);
 		const isRollTemplate = this.isDiceRollTemplate(chatMessage, html);
 		const isRoll = isRollTemplate || isDiceRoll;
+		const isValidGroupableType = this.isValidGroupableType(chatMessage);
 
 		let renderData = {
 			avatar: this.getChatTokenImage(actor),
@@ -51,29 +52,31 @@ export default class InCharacterMessage extends AbstractMessage {
 		if (isRoll) {
 			this._addClass(html, this.CLASS_NAMES.ROLL);
 		}
+		if (isValidGroupableType) {
+			// DELETE INLINE STYLES
+			$(html).removeAttr('style');
+		}
 
 		let isContinuation = false;
 		// ADD CONTINUATION CLASS
-		if (this.isValidGroupableType(chatMessage)) {
-			// DELETE INLINE STYLES
-			$(html).removeAttr("style");
-
+		if (!chatMessage.data.forceLeading && isValidGroupableType) {
 			const previousMessage = this.loadPreviousMessage(chatMessage);
 			if (previousMessage) {
 				isContinuation = this.isContinuationFromPreviousMessage(previousMessage.data, chatMessage.data);
 			}
-			renderData.isContinuation = isContinuation;
 		}
+		renderData.isContinuation = isContinuation;
+
 		if (isContinuation) {
 			this._addClass(html, this.CLASS_NAMES.CONTINUED);
 		} else {
 			this._addClass(html, this.CLASS_NAMES.LEADING);
 		}
-		
+
 		if (!isLiteMode && isRerenderableType) {
 			renderTemplate(this.TEMPLATES.CHAT_MESSAGE, renderData).then((renderedHTML) => {
 				$(html).html(renderedHTML);
-				ui.chat.scrollBottom();
+				// ui.chat.scrollBottom();
 			});
 		}
 	}
@@ -92,14 +95,14 @@ export default class InCharacterMessage extends AbstractMessage {
 	 * @param {*} chatMessage
 	 */
 	static isRerenderableType(chatMessage) {
-		const groupableMessageTypes = [CHAT_MESSAGE_TYPES.OOC, 
+		const groupableMessageTypes = [
+			CHAT_MESSAGE_TYPES.OOC,
 			CHAT_MESSAGE_TYPES.IC,
 			CHAT_MESSAGE_TYPES.WHISPER,
 			CHAT_MESSAGE_TYPES.OTHER,
 			CHAT_MESSAGE_TYPES.ROLL
 		];
-		return groupableMessageTypes.includes(chatMessage.data.type) && 
-		chatMessage.data.speaker.alias !== '#CGMP_DESCRIPTION';
+		return groupableMessageTypes.includes(chatMessage.data.type) && chatMessage.data.speaker.alias !== '#CGMP_DESCRIPTION';
 	}
 
 	/**
@@ -108,8 +111,7 @@ export default class InCharacterMessage extends AbstractMessage {
 	 */
 	static isValidGroupableType(chatMessage) {
 		const groupableMessageTypes = [CHAT_MESSAGE_TYPES.OOC, CHAT_MESSAGE_TYPES.IC, CHAT_MESSAGE_TYPES.WHISPER];
-		return groupableMessageTypes.includes(chatMessage.data.type) && 
-		chatMessage.data.speaker.alias !== '#CGMP_DESCRIPTION'; // to play nice with Cautious Gamemaster's Pack's /desc command
+		return groupableMessageTypes.includes(chatMessage.data.type) && chatMessage.data.speaker.alias !== '#CGMP_DESCRIPTION'; // to play nice with Cautious Gamemaster's Pack's /desc command
 	}
 
 	/**
@@ -127,8 +129,8 @@ export default class InCharacterMessage extends AbstractMessage {
 
 	/**
 	 * Returns whether two speakers are the same.
-	 * @param {*} prevMessage 
-	 * @param {*} nextMessage 
+	 * @param {*} prevMessage
+	 * @param {*} nextMessage
 	 */
 	static isFromTheSameActor(prevMessage, nextMessage) {
 		const prevSpeaker = prevMessage.speaker;
@@ -156,7 +158,7 @@ export default class InCharacterMessage extends AbstractMessage {
 	 */
 	static sameWhisperRecipients(prevMessage, nextMessage) {
 		if (!prevMessage.whisper || !nextMessage.whisper) {
-			this._warn("WHISPER PROPERTY OF CHAT MESSAGE NOT FOUND");
+			this._warn('WHISPER PROPERTY OF CHAT MESSAGE NOT FOUND');
 			return false;
 		}
 		const prevWhispers = prevMessage.whisper;

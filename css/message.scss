@@ -1,174 +1,180 @@
-@import 'variables';
+@import "variables";
 
-#chat-log .message {
-    border-radius: 0;
-}
+#chat-log, .bugvolution-chat-log {
+	.message {
+        border-radius: 0;
+        color: #191813;
+        transition: background-color 1s ease-out;
+	}
 
-#chat-log .message.roll-ui {
-    // RESET MESSAGE
-    border-radius: unset;
-    margin: 0;
-    border-left: none;
-    border-right: none;
-    border-bottom: none;
-    background: none;
+	.message.roll-ui {
+		// RESET MESSAGE
+		border-radius: unset;
+		margin: 0;
+		border-left: none;
+		border-right: none;
+		border-bottom: none;
+		background: none;
 
-    background-color: $background-normal;
-    font-family: Helvetica, sans-serif;
-    // END RESET MESSAGE
-}
+		background-color: $background-normal;
+		font-family: Helvetica, sans-serif;
+        // END RESET MESSAGE
+	}
 
-#chat-log .message.roll-ui:not(.modified) {
-    padding: 6px;
-}
+	.message.roll-ui:not(.modified) {
+		padding: 6px;
+	}
 
-#chat-log .message.lite-ui.modified {
-    padding: 5px 7px;
+	.message.lite-ui.modified {
+		padding: 5px 7px;
 
-    &.leading {
-        border-bottom: none;
-        margin-bottom: 0;
-    }
+		&.leading {
+			border-bottom: none;
+			margin-bottom: 0;
+		}
 
-    &.continued {
-        .message-header {
-            display: none;
-        }
-        border-top: none;
-        border-bottom: none;
-        margin: 0 3px;
-    }
-}
+		&.continued {
+			.message-header {
+				display: none;
+			}
+			border-top: none;
+			border-bottom: none;
+			margin: 0 3px;
+		}
+	}
 
-#chat-log .message.roll-ui.modified {
-    border: none;
-    background: none;
+	.message.roll-ui.modified {
+		border: none;
+		background: none;
 
-    background-color: $background-normal;
-    border-top: 2px solid $top-border-normal;
+		background-color: $background-normal;
+		border-top: 2px solid $top-border-normal;
 
-    display: flex;
-    flex-direction: row;
-    padding: 0 5px 5px 8px;
+		display: flex;
+		flex-direction: row;
+		padding: 0 5px 5px 8px;
 
-    &:last-child {
-        padding-bottom: 6px;
-    }
+		&:last-child {
+			padding-bottom: 6px;
+		}
 
-    img {
-        border: none;
-        width: $avatar-width;
-    }
+		img {
+			border: none;
+			width: $avatar-width;
+		}
 
-    & .avatar {
-        flex: none;
-        width: $avatar-width;
-    }
+		& .avatar {
+			flex: none;
+			width: $avatar-width;
+		}
 
-    & .content {
-        flex: 1;
-        padding: 1px 0 1px 10px;
+		& .content {
+			flex: 1;
+			padding: 1px 0 1px 10px;
 
-        & .message-timestamp {
-            font-size: 0.8em;
-            color: $color-timestamp;
-            margin-bottom: 4px;
-        }
+			& .message-timestamp {
+				font-size: 0.8em;
+				color: $color-timestamp;
+				margin-bottom: 4px;
+			}
 
-        & .message-speaker {
-            font-weight: bold;
-        }
+			& .message-speaker {
+				font-weight: bold;
+			}
 
-        & .message-content {
-            color: $color-text;
-        }
-    }
+			& .message-content {
+				color: $color-text;
+			}
+		}
 
-    & .roll-content {
-        flex-basis: auto;
-        width: 100%;
+		& .roll-content {
+			flex-basis: auto;
+			width: 100%;
 
-        & .chat-card {
-            border: none;
+			& .chat-card {
+				border: none;
 
-            & .card-header {
-                border-top: none;
-            }
-        }
+				& .card-header {
+					border-top: none;
+				}
+			}
 
-        & .red-full {
-            margin: 2px;
-            padding: 5px;
-            border-radius: 5px;
-            border: 1px solid $roll-template-border;
-            background-color: $roll-template-background;
-        }
-    }
+			& .red-full {
+				margin: 2px;
+				padding: 5px;
+				border-radius: 5px;
+				border: 1px solid $roll-template-border;
+				background-color: $roll-template-background;
+			}
+		}
 
-    &.roll {
-        flex-wrap: wrap;
-    }
+		&.roll {
+			flex-wrap: wrap;
+		}
 
-    &.whisper {
-        background-color: $background-whisper;
-        border: none;
-        border-top: 2px solid $top-border-whisper;
+		&.whisper {
+			background-color: $background-whisper;
+			border: none;
+			border-top: 2px solid $top-border-whisper;
 
-        & .message-whisper-targets {
-            font-weight: normal;
-        }
-    }
+			& .message-whisper-targets {
+				font-weight: normal;
+			}
+		}
 
-    &.leading {
-        padding-top: 4px;
-    }
+		&.leading {
+			padding-top: 4px;
+		}
 
-    &.continued {
-        border-top: none;
+		&.continued {
+			border-top: none;
 
-        & .avatar-placeholder {
-            flex: none;
-            width: $avatar-width;    
-        }
+			& .avatar-placeholder {
+				flex: none;
+				width: $avatar-width;
+			}
 
-        & .message-timestamp {
-            display: none;
-        }
-    }
+			& .message-timestamp {
+				display: none;
+			}
+		}
 
-    &.emote {
-        background-color: $background-emote;
-        border: none;
-        border-top: 2px solid $top-border-emote;
-        padding-bottom: 0;
-        padding-top: 0;
+		&.emote {
+			background-color: $background-emote;
+			border: none;
+			border-top: 2px solid $top-border-emote;
+			padding-bottom: 0;
+			padding-top: 0;
 
-        & .avatar {
-            padding-top: 4px;
-        }
+			& .avatar {
+				padding-top: 4px;
+			}
 
-        & .message-sender, & .message-metadata, & .message-timestamp {
-            display: none;
-        }
+			& .message-sender,
+			& .message-metadata,
+			& .message-timestamp {
+				display: none;
+			}
 
-        & .message-header img {
-            width: $avatar-width !important;
-            height: $avatar-width !important;
-        }
+			& .message-header img {
+				width: $avatar-width !important;
+				height: $avatar-width !important;
+			}
 
-        & .content {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            line-height: 1.15rem;
+			& .content {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				line-height: 1.15rem;
 
-            & .message-content {
-                font-style: italic;
-                font-weight: bold;
-                text-align: center;
-                color: $color-emote;   
-                padding: 4px 0; 
-            }
-        }
-    }
+				& .message-content {
+					font-style: italic;
+					font-weight: bold;
+					text-align: center;
+					color: $color-emote;
+					padding: 4px 0;
+				}
+			}
+		}
+	}
 }

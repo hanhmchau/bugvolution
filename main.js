@@ -23,12 +23,20 @@ import AutoscrollCombatTracker from "./scripts/combat-tracker.js";
  * Main class wrapper for all of our features.
  */
 class ChatMessageStyler {
+	static onRenderChatLog(chatLog, html, data) {
+		$(html).addClass('bugvolution-chat-log');
+	}
 	static onRenderChatMessage(chatMessage, html, messageData) {
 		if (ModuleSettings.getSetting(ModuleOptions.MARKDOWN)) {
 			MarkdownMessage.process(chatMessage, html, messageData);
 		}
 		InCharacterMessage.process(chatMessage, html, messageData);
 		EmoteMessage.process(chatMessage, html, messageData);
+	}
+	static onCreateChatMessage() {
+		setTimeout(() => {
+			ui.chat.scrollBottom();
+		}, 10);
 	}
 }
 
@@ -46,6 +54,8 @@ Hooks.once("init", () => {
  * Note that this happens after the core code has already generated HTML.
  */
 Hooks.on("renderChatMessage", ChatMessageStyler.onRenderChatMessage.bind(ChatMessageStyler));
+Hooks.on("renderChatLog", ChatMessageStyler.onRenderChatLog.bind(ChatMessageStyler));
+Hooks.on("createChatMessage", ChatMessageStyler.onCreateChatMessage.bind(ChatMessageStyler));
 
 class ChatMessageContextMenu {
 	static onGetEntryContext(html, entryOptions) {
@@ -55,4 +65,9 @@ class ChatMessageContextMenu {
 
 Hooks.on("getChatLogEntryContext", ChatMessageContextMenu.onGetEntryContext.bind(ChatMessageContextMenu));
 
-Hooks.on("preCreateChatMessage", EmoteMessage.resolveMeCommand.bind(EmoteMessage));
+// DEPRECATED as Foundry 0.6.5 supports /me as well as /em
+// Hooks.on("preCreateChatMessage", EmoteMessage.resolveMeCommand.bind(EmoteMessage));
+
+Hooks.on('renderCombatTracker', (...args) => {
+	Hooks.call('renderSidebarTab', ...args);
+});
