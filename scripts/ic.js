@@ -21,7 +21,7 @@ export default class InCharacterMessage extends AbstractMessage {
 		Handlebars.registerHelper('getWhisperList', this.getWhisperTargets);
 	}
 
-	static process(chatMessage, html, messageData) {
+	static async process(chatMessage, html, messageData) {
 		const isLiteMode = ModuleSettings.getSetting(ModuleOptions.LITE_MODE);
 		if (isLiteMode) {
 			this._addClass(html, this.CLASS_NAMES.LITE_UI);
@@ -74,10 +74,12 @@ export default class InCharacterMessage extends AbstractMessage {
 		}
 
 		if (!isLiteMode && isRerenderableType) {
-			renderTemplate(this.TEMPLATES.CHAT_MESSAGE, renderData).then((renderedHTML) => {
-				$(html).html(renderedHTML);
-				// ui.chat.scrollBottom();
-			});
+			const renderedHTML = await renderTemplate(this.TEMPLATES.CHAT_MESSAGE, renderData);
+			$(html).html(renderedHTML);
+			// renderTemplate(this.TEMPLATES.CHAT_MESSAGE, renderData).then((renderedHTML) => {
+			// 	$(html).html(renderedHTML);
+			// 	// ui.chat.scrollBottom();
+			// });
 		}
 	}
 

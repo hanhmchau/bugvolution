@@ -1,10 +1,11 @@
-"use strict";
+'use strict';
 
-import InCharacterMessage from "./scripts/ic.js";
-import MarkdownMessage from "./scripts/markdown.js";
-import EmoteMessage from "./scripts/emote.js";
-import { ModuleSettings, ModuleOptions } from "./scripts/settings.js";
-import AutoscrollCombatTracker from "./scripts/combat-tracker.js";
+import InCharacterMessage from './scripts/ic.js';
+import MarkdownMessage from './scripts/markdown.js';
+import EmoteMessage from './scripts/emote.js';
+import { ModuleSettings, ModuleOptions } from './scripts/settings.js';
+import AutoscrollCombatTracker from './scripts/combat-tracker.js';
+import RollIconsModification from './scripts/roll-icons.js';
 
 /**
  * Valid Foundry.js chat message type
@@ -26,12 +27,13 @@ class ChatMessageStyler {
 	static onRenderChatLog(chatLog, html, data) {
 		$(html).addClass('bugvolution-chat-log');
 	}
-	static onRenderChatMessage(chatMessage, html, messageData) {
+	static async onRenderChatMessage(...args) {
 		if (ModuleSettings.getSetting(ModuleOptions.MARKDOWN)) {
-			MarkdownMessage.process(chatMessage, html, messageData);
+			MarkdownMessage.process(...args);
 		}
-		InCharacterMessage.process(chatMessage, html, messageData);
-		EmoteMessage.process(chatMessage, html, messageData);
+		await InCharacterMessage.process(...args);
+		EmoteMessage.process(...args);
+		RollIconsModification.process(...args);
 	}
 	static onCreateChatMessage() {
 		setTimeout(() => {
@@ -43,19 +45,20 @@ class ChatMessageStyler {
 /**
  * These hooks register the following settings in the module settings.
  */
-Hooks.once("init", () => {
+Hooks.once('init', () => {
 	InCharacterMessage.init();
 	ModuleSettings.registerSettings();
 	CONFIG.ui.combat = AutoscrollCombatTracker;
+	RollIconsModification.init();
 });
 
 /**
  * This line connects our method above with the chat rendering.
  * Note that this happens after the core code has already generated HTML.
  */
-Hooks.on("renderChatMessage", ChatMessageStyler.onRenderChatMessage.bind(ChatMessageStyler));
-Hooks.on("renderChatLog", ChatMessageStyler.onRenderChatLog.bind(ChatMessageStyler));
-Hooks.on("createChatMessage", ChatMessageStyler.onCreateChatMessage.bind(ChatMessageStyler));
+Hooks.on('renderChatMessage', ChatMessageStyler.onRenderChatMessage.bind(ChatMessageStyler));
+Hooks.on('renderChatLog', ChatMessageStyler.onRenderChatLog.bind(ChatMessageStyler));
+Hooks.on('createChatMessage', ChatMessageStyler.onCreateChatMessage.bind(ChatMessageStyler));
 
 class ChatMessageContextMenu {
 	static onGetEntryContext(html, entryOptions) {
@@ -63,7 +66,7 @@ class ChatMessageContextMenu {
 	}
 }
 
-Hooks.on("getChatLogEntryContext", ChatMessageContextMenu.onGetEntryContext.bind(ChatMessageContextMenu));
+Hooks.on('getChatLogEntryContext', ChatMessageContextMenu.onGetEntryContext.bind(ChatMessageContextMenu));
 
 // DEPRECATED as Foundry 0.6.5 supports /me as well as /em
 // Hooks.on("preCreateChatMessage", EmoteMessage.resolveMeCommand.bind(EmoteMessage));
