@@ -1,10 +1,15 @@
-@import "variables";
+@import 'variables';
 
-#chat-log, .bugvolution-chat-log {
+#chat-log,
+.bugvolution-chat-log {
 	.message {
-        border-radius: 0;
-        color: #191813;
-        transition: background-color 1s ease-out;
+		border-radius: 0;
+		color: #191813;
+		transition: all 1s ease-out;
+
+		&.whisper {
+			background-color: $background-whisper;
+		}
 	}
 
 	.message.roll-ui {
@@ -18,7 +23,7 @@
 
 		background-color: $background-normal;
 		font-family: Helvetica, sans-serif;
-        // END RESET MESSAGE
+		// END RESET MESSAGE
 	}
 
 	.message.roll-ui:not(.modified) {
@@ -40,6 +45,34 @@
 			border-top: none;
 			border-bottom: none;
 			margin: 0 3px;
+		}
+	}
+
+	.message.roll-ui.desc {
+		background: #ececec;
+		border-color: #bfbfbf !important;
+
+		.message-header {
+			.message-sender,
+			.message-delete {
+				display: none;
+			}
+
+			.message-metadata {
+				text-align: left;
+				padding-left: 38px;
+
+				.message-timestamp {
+					font-size: 0.8em;
+					color: #666;
+				}
+			}
+		}
+
+		.message-content {
+			text-align: center;
+			color: gray;
+			font-style: italic;
 		}
 	}
 
@@ -113,7 +146,6 @@
 		}
 
 		&.whisper {
-			background-color: $background-whisper;
 			border: none;
 			border-top: 2px solid $top-border-whisper;
 
