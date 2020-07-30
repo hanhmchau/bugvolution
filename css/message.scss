@@ -148,6 +148,7 @@
 		&.whisper {
 			border: none;
 			border-top: 2px solid $top-border-whisper;
+			background-color: $background-whisper;
 
 			& .message-whisper-targets {
 				font-weight: normal;
