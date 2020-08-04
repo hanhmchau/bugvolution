@@ -33,6 +33,18 @@ export default class AbstractMessage {
 		return "";
 	}
 
+	/**
+	 * @param {*} userId
+	 * @param {*} message
+	 */
+	static getUserImage(userId) {
+		const user = game.users.get(userId);
+		if (user) {
+			return user.avatar;
+		}
+		return "";
+	}
+
 	static getWhisperTargets(names, speaker) {
 		if (typeof names === "string" && names.trim().length === 0) {
 			return "";

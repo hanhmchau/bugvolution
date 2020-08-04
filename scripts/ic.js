@@ -1,4 +1,5 @@
 import AbstractMessage from './message.js';
+import ModulesHelper from './modules.js';
 import { ModuleOptions, ModuleSettings } from './settings.js';
 
 export default class InCharacterMessage extends AbstractMessage {
@@ -30,15 +31,17 @@ export default class InCharacterMessage extends AbstractMessage {
 		}
 
 		const actor = this.loadActorForChatMessage(messageData);
+		const user = chatMessage.data.user || chatMessage.user.id;
 		const isWhisper = chatMessage.data.type === CHAT_MESSAGE_TYPES.WHISPER;
 		const isDiceRoll = chatMessage.data.type === CHAT_MESSAGE_TYPES.ROLL;
 		const isRerenderableType = this.isRerenderableType(chatMessage);
 		const isRollTemplate = this.isDiceRollTemplate(chatMessage, html);
 		const isRoll = isRollTemplate || isDiceRoll;
 		const isValidGroupableType = this.isValidGroupableType(chatMessage);
+		const avatar = this.getChatTokenImage(actor) || this.getUserImage(user);
 
 		let renderData = {
-			avatar: this.getChatTokenImage(actor),
+			avatar,
 			timestamp: messageData.message.timestamp,
 			speaker: messageData.alias,
 			content: messageData.message.content,
@@ -80,6 +83,20 @@ export default class InCharacterMessage extends AbstractMessage {
 			// 	$(html).html(renderedHTML);
 			// 	// ui.chat.scrollBottom();
 			// });
+		}
+		if (isLiteMode && ModulesHelper.chatPortrait) {
+			if (!actor && avatar) {
+				// Place the image to left of the header by injecting the HTML
+				const img = document.createElement('img');
+				const authorColor = messageData.author ? messageData.author.data.color : "black";
+				img.src = avatar;
+				const size = game.settings.get('ChatPortrait', 'portraitSize');
+				img.width = size;
+				img.height = size;
+				PortraitsOnChatMessage.setImageBorderShape(img, authorColor);
+				let element = html.find('.message-header')[0];
+				element.prepend(img);
+			}
 		}
 	}
 
