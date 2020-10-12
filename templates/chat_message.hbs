@@ -4,7 +4,7 @@
     </div>
     <div class="content">
         <div class="message-timestamp">{{timeSince timestamp}}</div>
-        <span class="message-content">{{{content}}}</span>
+        {{{content}}}
     </div>
     
 {{else}}
@@ -21,7 +21,7 @@
                 {{speaker}}:
             {{/if}}
         </span>
-        {{#unless isRoll}}<span class="message-content">{{{content}}}</span>{{/unless}}
+        {{#unless isRoll}}{{{content}}}{{/unless}}
     </div>
     {{#if isRoll}}
         <div class="roll-content">{{{content}}}</div>

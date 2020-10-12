@@ -23,6 +23,7 @@ export default class InCharacterMessage extends AbstractMessage {
 	}
 
 	static async process(chatMessage, html, messageData) {
+		const originalHTML = html.clone(true);
 		const isLiteMode = ModuleSettings.getSetting(ModuleOptions.LITE_MODE);
 		if (isLiteMode) {
 			this._addClass(html, this.CLASS_NAMES.LITE_UI);
@@ -79,6 +80,10 @@ export default class InCharacterMessage extends AbstractMessage {
 		if (!isLiteMode && isRerenderableType) {
 			const renderedHTML = await renderTemplate(this.TEMPLATES.CHAT_MESSAGE, renderData);
 			$(html).html(renderedHTML);
+
+			if (isRollTemplate) {
+				$(html).find('.roll-content').html(originalHTML.find('.red-full.chat-card'));
+			}
 			// renderTemplate(this.TEMPLATES.CHAT_MESSAGE, renderData).then((renderedHTML) => {
 			// 	$(html).html(renderedHTML);
 			// 	// ui.chat.scrollBottom();

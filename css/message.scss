@@ -24,6 +24,12 @@
 		background-color: $background-normal;
 		font-family: Helvetica, sans-serif;
 		// END RESET MESSAGE
+
+		* {
+			user-select: text !important;
+			-moz-user-select: text;
+			-webkit-user-select: text;
+		}
 	}
 
 	.message.roll-ui:not(.modified) {
@@ -69,11 +75,9 @@
 			}
 		}
 
-		.message-content {
-			text-align: center;
-			color: gray;
-			font-style: italic;
-		}
+		text-align: center;
+		color: gray;
+		font-style: italic;
 	}
 
 	.message.roll-ui.modified {
@@ -115,9 +119,7 @@
 				font-weight: bold;
 			}
 
-			& .message-content {
-				color: $color-text;
-			}
+			color: $color-text;
 		}
 
 		& .roll-content {
