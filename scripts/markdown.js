@@ -9,6 +9,7 @@ export default class MarkdownMessage {
 			const markdown = md.renderInline(chatMessage.data.content);
 			messageData.message.content = markdown;
 			chatMessage.data.content = markdown;
+			$(html).find('.message-content').html(markdown);
 		}
 	}
 
