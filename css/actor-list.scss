@@ -1,0 +1,15 @@
+#actors {
+    .directory-item.actor {
+        line-height: 48px !important;
+
+        .actor-profile {
+            clip: unset !important;
+            position: relative !important;
+            margin: 0 !important;
+        }
+
+        .entity-name {
+            padding-left: 7px !important;
+        }
+    }
+}
