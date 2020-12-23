@@ -91,6 +91,11 @@
 		flex-direction: row;
 		padding: 0 5px 5px 8px;
 
+		&.me {
+			background-color: $background-me;
+			border-top: 2px solid $top-border-me;
+		}
+
 		&:last-child {
 			padding-bottom: 6px;
 		}
@@ -100,41 +105,41 @@
 			width: $avatar-width;
 		}
 
-		& .avatar {
+		.avatar {
 			flex: none;
 			width: $avatar-width;
 		}
 
-		& .content {
+		.content {
 			flex: 1;
 			padding: 1px 0 1px 10px;
 
-			& .message-timestamp {
+			.message-timestamp {
 				font-size: 0.8em;
 				color: $color-timestamp;
 				margin-bottom: 4px;
 			}
 
-			& .message-speaker {
+			.message-speaker {
 				font-weight: bold;
 			}
 
 			color: $color-text;
 		}
 
-		& .roll-content {
+		.roll-content {
 			flex-basis: auto;
 			width: 100%;
 
-			& .chat-card {
+			.chat-card {
 				border: none;
 
-				& .card-header {
+				.card-header {
 					border-top: none;
 				}
 			}
 
-			& .red-full {
+			.red-full {
 				margin: 2px;
 				padding: 5px;
 				border-radius: 5px;
@@ -152,7 +157,7 @@
 			border-top: 2px solid $top-border-whisper;
 			background-color: $background-whisper;
 
-			& .message-whisper-targets {
+			.message-whisper-targets {
 				font-weight: normal;
 			}
 		}
@@ -164,12 +169,12 @@
 		&.continued {
 			border-top: none;
 
-			& .avatar-placeholder {
+			.avatar-placeholder {
 				flex: none;
 				width: $avatar-width;
 			}
 
-			& .message-timestamp {
+			.message-timestamp {
 				display: none;
 			}
 		}
@@ -181,28 +186,28 @@
 			padding-bottom: 0;
 			padding-top: 0;
 
-			& .avatar {
+			.avatar {
 				padding-top: 4px;
 			}
 
-			& .message-sender,
-			& .message-metadata,
-			& .message-timestamp {
+			.message-sender,
+			.message-metadata,
+			.message-timestamp {
 				display: none;
 			}
 
-			& .message-header img {
+			.message-header img {
 				width: $avatar-width !important;
 				height: $avatar-width !important;
 			}
 
-			& .content {
+			.content {
 				display: flex;
 				justify-content: center;
 				align-items: center;
 				line-height: 1.15rem;
 
-				& .message-content {
+				.message-content {
 					font-style: italic;
 					font-weight: bold;
 					text-align: center;

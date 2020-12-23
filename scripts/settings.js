@@ -1,6 +1,7 @@
 export const ModuleOptions = {
     LITE_MODE: 'litemode',
-    MARKDOWN: 'markdown'
+    MARKDOWN: 'markdown',
+    BLUE_ME: 'blueme',
 };
 
 export class ModuleSettings {
@@ -11,6 +12,7 @@ export class ModuleSettings {
         game.settings.register(this.MODULE_NAME, ModuleOptions.MARKDOWN, this._buildConfig(ModuleOptions.MARKDOWN, {
             default: true
         }));
+        game.settings.register(this.MODULE_NAME, ModuleOptions.BLUE_ME, this._buildConfig(ModuleOptions.BLUE_ME));
 	}
 
 	static getSetting(option) {

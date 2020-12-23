@@ -2,6 +2,8 @@
     "bugvolution.litemode-s": "Enable lite mode UI",
     "bugvolution.litemode-l": "Enable lite mode UI for chat log section which only supports message grouping and disable roll20-esque UI.",
     "bugvolution.markdown-s": "Enable Markdown",
-    "bugvolution.markdown-l": "Enable processing Markdown formatting in chat messages."
+    "bugvolution.markdown-l": "Enable processing Markdown formatting in chat messages.",
+    "bugvolution.blueme-s": "Enable highlight for your own messages",
+    "bugvolution.blueme-l": "Enable a different highlight for your own messages to set it apart from other messages."
 }
   

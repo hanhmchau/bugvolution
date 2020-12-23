@@ -9,7 +9,8 @@ export default class InCharacterMessage extends AbstractMessage {
 		LITE_UI: 'lite-ui',
 		LEADING: 'leading', // first message in a group of messages
 		CONTINUED: 'continued', // all messages following,
-		ROLL: 'roll'
+		ROLL: 'roll',
+		ME: 'me'
 	};
 
 	static TEMPLATES = {
@@ -40,6 +41,7 @@ export default class InCharacterMessage extends AbstractMessage {
 		const isRoll = isRollTemplate || isDiceRoll;
 		const isValidGroupableType = this.isValidGroupableType(chatMessage);
 		const avatar = this.getChatTokenImage(actor) || this.getUserImage(user);
+		const isMe = this.isMe(chatMessage);
 
 		let renderData = {
 			avatar,
@@ -55,6 +57,9 @@ export default class InCharacterMessage extends AbstractMessage {
 		}
 		if (isRoll) {
 			this._addClass(html, this.CLASS_NAMES.ROLL);
+		}
+		if (isMe && ModuleSettings.getSetting(ModuleOptions.BLUE_ME)) {
+			this._addClass(html, this.CLASS_NAMES.ME);
 		}
 		if (isValidGroupableType) {
 			// DELETE INLINE STYLES
@@ -207,5 +212,13 @@ export default class InCharacterMessage extends AbstractMessage {
 			}
 			index--;
 		}
+	}
+
+	/**
+	 * Returns whether the message is from the current player
+	 * @param {*} chatMessage 
+	 */
+	static isMe(chatMessage) {
+		return chatMessage.data.user === game.user.id;
 	}
 }
