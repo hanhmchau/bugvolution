@@ -32,7 +32,6 @@ class ChatMessageStyler {
 		if (ModuleSettings.getSetting(ModuleOptions.MARKDOWN)) {
 			MarkdownMessage.process(...args);
 		}
-		await sleep(50);
 		await InCharacterMessage.process(...args);
 		EmoteMessage.process(...args);
 		RollIconsModification.process(...args);

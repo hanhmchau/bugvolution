@@ -89,6 +89,7 @@ export default class InCharacterMessage extends AbstractMessage {
 			if (isRollTemplate) {
 				$(html).find('.roll-content').html(originalHTML.find('.red-full.chat-card'));
 				this._setupDamageButtons(html);
+				this._setupDiceAnnotation(html);
 			}
 		}
 		if (isLiteMode && ModulesHelper.chatPortrait) {
@@ -113,6 +114,14 @@ export default class InCharacterMessage extends AbstractMessage {
 			}
 		}, evOut => {
 			$(html).find('.dmgBtn-container-br').hide();
+		});
+	}
+
+	static _setupDiceAnnotation(html) {
+		$(html).find('.dice-value').hover(evIn => {
+			$(evIn.target).closest('.dice-roll').find('.dice-annotation').show();
+		}, evOut => {
+			$(evOut.target).closest('.dice-roll').find('.dice-annotation').hide();
 		});
 	}
 
