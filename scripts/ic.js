@@ -88,26 +88,32 @@ export default class InCharacterMessage extends AbstractMessage {
 
 			if (isRollTemplate) {
 				$(html).find('.roll-content').html(originalHTML.find('.red-full.chat-card'));
+				this._setupDamageButtons(html);
 			}
-			// renderTemplate(this.TEMPLATES.CHAT_MESSAGE, renderData).then((renderedHTML) => {
-			// 	$(html).html(renderedHTML);
-			// 	// ui.chat.scrollBottom();
-			// });
 		}
 		if (isLiteMode && ModulesHelper.chatPortrait) {
 			if (!actor && avatar) {
 				// Place the image to left of the header by injecting the HTML
 				const img = document.createElement('img');
-				const authorColor = messageData.author ? messageData.author.data.color : "black";
 				img.src = avatar;
 				const size = game.settings.get('ChatPortrait', 'portraitSize');
 				img.width = size;
 				img.height = size;
-				PortraitsOnChatMessage.setImageBorderShape(img, authorColor);
 				let element = html.find('.message-header')[0];
 				element.prepend(img);
 			}
 		}
+		originalHTML.remove();
+	}
+
+	static _setupDamageButtons(html) {
+		$(html).hover(evIn => {
+			if (canvas?.tokens.controlled.length > 0) {
+				$(html).find('.dmgBtn-container-br').show();
+			}
+		}, evOut => {
+			$(html).find('.dmgBtn-container-br').hide();
+		});
 	}
 
 	/**

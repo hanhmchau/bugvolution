@@ -6,6 +6,7 @@ import EmoteMessage from './scripts/emote.js';
 import { ModuleSettings, ModuleOptions } from './scripts/settings.js';
 import AutoscrollCombatTracker from './scripts/combat-tracker.js';
 import RollIconsModification from './scripts/roll-icons.js';
+import { sleep } from './scripts/utils.js';
 
 /**
  * Valid Foundry.js chat message type
@@ -31,6 +32,7 @@ class ChatMessageStyler {
 		if (ModuleSettings.getSetting(ModuleOptions.MARKDOWN)) {
 			MarkdownMessage.process(...args);
 		}
+		await sleep(50);
 		await InCharacterMessage.process(...args);
 		EmoteMessage.process(...args);
 		RollIconsModification.process(...args);
