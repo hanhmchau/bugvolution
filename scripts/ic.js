@@ -24,7 +24,7 @@ export default class InCharacterMessage extends AbstractMessage {
 	}
 
 	static async process(chatMessage, html, messageData) {
-		const originalHTML = html.clone(true);
+		const originalHTML = html.clone();
 		const isLiteMode = ModuleSettings.getSetting(ModuleOptions.LITE_MODE);
 		if (isLiteMode) {
 			this._addClass(html, this.CLASS_NAMES.LITE_UI);
@@ -88,8 +88,6 @@ export default class InCharacterMessage extends AbstractMessage {
 
 			if (isRollTemplate) {
 				$(html).find('.roll-content').html(originalHTML.find('.red-full.chat-card'));
-				this._setupDamageButtons(html);
-				this._setupDiceAnnotation(html);
 			}
 		}
 		if (isLiteMode && ModulesHelper.chatPortrait) {
@@ -105,16 +103,9 @@ export default class InCharacterMessage extends AbstractMessage {
 			}
 		}
 		originalHTML.remove();
-	}
-
-	static _setupDamageButtons(html) {
-		$(html).hover(evIn => {
-			if (canvas?.tokens.controlled.length > 0) {
-				$(html).find('.dmgBtn-container-br').show();
-			}
-		}, evOut => {
-			$(html).find('.dmgBtn-container-br').hide();
-		});
+		if (chatMessage.BetterRollsCardBinding) {
+			chatMessage.BetterRollsCardBinding.updateBinding(chatMessage, html);
+		}
 	}
 
 	static _setupDiceAnnotation(html) {
