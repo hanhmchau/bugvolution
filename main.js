@@ -4,7 +4,7 @@ import InCharacterMessage from './scripts/ic.js';
 import MarkdownMessage from './scripts/markdown.js';
 import EmoteMessage from './scripts/emote.js';
 import { ModuleSettings, ModuleOptions } from './scripts/settings.js';
-import AutoscrollCombatTracker from './scripts/combat-tracker.js';
+import AutoscrollCombatTracker, { CombatTrackerHooks } from './scripts/combat-tracker.js';
 import RollIconsModification from './scripts/roll-icons.js';
 import { sleep } from './scripts/utils.js';
 
@@ -51,6 +51,7 @@ Hooks.once('init', () => {
 	ModuleSettings.registerSettings();
 	CONFIG.ui.combat = AutoscrollCombatTracker;
 	RollIconsModification.init();
+	CombatTrackerHooks.attach();
 });
 
 /**

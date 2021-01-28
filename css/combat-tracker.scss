@@ -25,3 +25,11 @@
         }
     }
 }
+
+#combat, #combat-popout {
+    &.hide-defeated {
+        .combatant.defeated {
+            display: none;
+        }
+    }
+}

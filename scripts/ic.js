@@ -89,6 +89,10 @@ export default class InCharacterMessage extends AbstractMessage {
 			if (isRollTemplate) {
 				$(html).find('.roll-content').html(originalHTML.find('.red-full.chat-card'));
 			}
+
+			if (chatMessage.BetterRollsCardBinding) {
+				chatMessage.BetterRollsCardBinding.updateBinding(chatMessage, html);
+			}
 		}
 		if (isLiteMode && ModulesHelper.chatPortrait) {
 			if (!actor && avatar) {
@@ -103,9 +107,6 @@ export default class InCharacterMessage extends AbstractMessage {
 			}
 		}
 		originalHTML.remove();
-		if (chatMessage.BetterRollsCardBinding) {
-			chatMessage.BetterRollsCardBinding.updateBinding(chatMessage, html);
-		}
 	}
 
 	static _setupDiceAnnotation(html) {
