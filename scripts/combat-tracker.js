@@ -42,12 +42,14 @@ class CombatTrackerPopper {
 	}
 
 	popAway() {
-		if (game.combats.size === 0 && this.popout) {
+		if (this.popout || ui.combat._popout) {
 			setTimeout(() => {
 				if (ui.combat._popout) {
 					ui.combat._popout.close();
 				}
-				this.popout.close();
+				if (this.popout) {
+					this.popout.close();
+				}
 			}, 100);
 		}
 	}
