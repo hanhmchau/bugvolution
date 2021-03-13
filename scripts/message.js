@@ -8,21 +8,22 @@ export default class AbstractMessage {
 	 */
 	static loadActorForChatMessage(messageData) {
 		const speaker = messageData.message.speaker;
-		let actor;
 		if (speaker.token) {
-			actor = game.actors.tokens[speaker.token];
+			const possibleToken = game.actors.tokens[speaker.token];
+			if (possibleToken) return possibleToken;
 		}
-		if (!actor) {
-			actor = game.actors.get(speaker.actor);
+		if (speaker.actor) {
+			const possibleActor = game.actors.get(speaker.actor);
+			if (possibleActor) return possibleActor;
 		}
-		if (!actor) {
-			game.actors.forEach((value) => {
-				if (value.name === speaker.alias) {
-					actor = value;
-				}
-			});
+		if (speaker.alias && !speaker.actor) {
+			return; // /as command
 		}
-		return actor;
+		game.actors.forEach((value) => {
+			if (value.name === speaker.alias) {
+				return value;
+			}
+		});
 	}
 
 	/**
