@@ -51,11 +51,13 @@ export default class AbstractMessage {
 			return "";
 		}
 		if (typeof names === "string" && names !== speaker) {
-			return ` (To ${names})`;
+			return names;
 		}
 		if (names && names.join) {
-			const namesString = names.filter((name) => name !== speaker).join();
-			return ` (To ${namesString})`;
+			const validNames = names.filter((name) => name !== speaker);
+			if (validNames.length === 0) return "";
+			const namesString = validNames.join();
+			return namesString;
 		}
 		return "";
 	}

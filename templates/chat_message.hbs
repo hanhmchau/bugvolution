@@ -16,7 +16,7 @@
         <div class="message-timestamp">{{timeSince timestamp}}</div>
         <span class="message-speaker">
             {{#if isWhisper}}
-                {{speaker}}<span class="message-whisper-targets">{{getWhisperList whisperTo speaker}}</span>:
+                {{speaker}}<span class="message-whisper-targets">{{whisperTo}}</span>:
             {{else}}
                 {{speaker}}:
             {{/if}}

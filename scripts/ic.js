@@ -1,6 +1,7 @@
 import AbstractMessage from './message.js';
 import ModulesHelper from './modules.js';
 import { ModuleOptions, ModuleSettings } from './settings.js';
+import { arrayEquals } from './utils.js';
 
 export default class InCharacterMessage extends AbstractMessage {
 	static CLASS_NAMES = {
@@ -42,13 +43,16 @@ export default class InCharacterMessage extends AbstractMessage {
 		const isValidGroupableType = this.isValidGroupableType(chatMessage);
 		const avatar = this.getChatTokenImage(actor) || this.getUserImage(user);
 		const isMe = this.isMe(chatMessage);
+		const realWhisperTargets = this.getRealWhisperTargets(chatMessage);
+		const whisperTo = (realWhisperTargets && realWhisperTargets.length > 0) ? realWhisperTargets : messageData.whisperTo;
+		const whisperTargets = this.getWhisperTargets(whisperTo, messageData.alias);
 
 		let renderData = {
 			avatar,
 			timestamp: messageData.message.timestamp,
 			speaker: messageData.alias,
 			content: messageData.message.content,
-			whisperTo: messageData.whisperTo,
+			whisperTo: this.formatWhisperNonLite(whisperTargets),
 			isWhisper,
 			isRoll
 		};
@@ -71,7 +75,7 @@ export default class InCharacterMessage extends AbstractMessage {
 		if (!chatMessage.data.forceLeading && isValidGroupableType) {
 			const previousMessage = this.loadPreviousMessage(chatMessage);
 			if (previousMessage) {
-				isContinuation = this.isContinuationFromPreviousMessage(previousMessage.data, chatMessage.data);
+				isContinuation = this.isContinuationFromPreviousMessage(previousMessage, chatMessage);
 			}
 		}
 		renderData.isContinuation = isContinuation;
@@ -104,6 +108,16 @@ export default class InCharacterMessage extends AbstractMessage {
 				img.height = size;
 				let element = html.find('.message-header')[0];
 				element.prepend(img);
+			}
+		}
+		if (isLiteMode) {
+			const whisperTo = html.find('.whisper-to');
+			const whisperString = this.formatWhisperLite(whisperTargets);
+			if (whisperTo.length == 0) {
+				const span = $('<span />').addClass('whisper-to').html(whisperString);
+				html.find('.message-header').append(span)
+			} else {
+				whisperTo.html(whisperString);
 			}
 		}
 		originalHTML.remove();
@@ -157,8 +171,8 @@ export default class InCharacterMessage extends AbstractMessage {
 	 * @param {*} nextMessage
 	 */
 	static isContinuationFromPreviousMessage(prevMessage, nextMessage) {
-		const isTheSameGroupableType = prevMessage.type === nextMessage.type; // nextMessage.type is already confirmed to be groupable
-		const isFromTheSameActor = this.isFromTheSameActor(prevMessage, nextMessage);
+		const isTheSameGroupableType = prevMessage.data.type === nextMessage.data.type; // nextMessage.type is already confirmed to be groupable
+		const isFromTheSameActor = this.isFromTheSameActor(prevMessage.data, nextMessage.data);
 		const sameWhisperRecipients = this.sameWhisperRecipients(prevMessage, nextMessage);
 		return isFromTheSameActor && sameWhisperRecipients && isTheSameGroupableType;
 	}
@@ -174,10 +188,10 @@ export default class InCharacterMessage extends AbstractMessage {
 		const isWhisper = nextMessage.type === CHAT_MESSAGE_TYPES.WHISPER;
 		const isOOC = nextMessage.type === CHAT_MESSAGE_TYPES.OOC;
 
-		if (prevSpeaker.token) {
+		if (prevSpeaker.token || nextSpeaker.token) {
 			return prevSpeaker.token === nextSpeaker.token;
 		}
-		if (prevSpeaker.alias) {
+		if (prevSpeaker.alias || nextSpeaker.alias) {
 			return prevSpeaker.alias === nextSpeaker.alias;
 		}
 		if (isWhisper || isOOC) {
@@ -193,17 +207,18 @@ export default class InCharacterMessage extends AbstractMessage {
 	 * @param {*} nextMessage
 	 */
 	static sameWhisperRecipients(prevMessage, nextMessage) {
-		if (!prevMessage.whisper || !nextMessage.whisper) {
+		if (!prevMessage.data.whisper || !nextMessage.data.whisper) {
 			this._warn('WHISPER PROPERTY OF CHAT MESSAGE NOT FOUND');
 			return false;
 		}
-		const prevWhispers = prevMessage.whisper;
-		const nextWhispers = nextMessage.whisper;
-		if (prevWhispers.length !== nextWhispers.length) return false;
-		for (let i = 0; i < prevWhispers.length; i++) {
-			if (prevWhispers[i] !== nextWhispers[i]) return false;
-		}
-		return true;
+		const prevRealWhisperTargets = this.getRealWhisperTargets(prevMessage);
+		const nextRealWhisperTargets = this.getRealWhisperTargets(nextMessage);
+		const hasRealWhisperTargets = prevRealWhisperTargets && nextRealWhisperTargets;
+
+		const prevWhispers = prevMessage.data.whisper;
+		const nextWhispers = nextMessage.data.whisper;
+
+		return (hasRealWhisperTargets ? arrayEquals(prevRealWhisperTargets, nextRealWhisperTargets) : true) && arrayEquals(prevWhispers, nextWhispers);
 	}
 
 	/**
@@ -228,4 +243,12 @@ export default class InCharacterMessage extends AbstractMessage {
 	static isMe(chatMessage) {
 		return chatMessage.data.user === game.user.id;
 	}
+
+	static getRealWhisperTargets(chatMessage) {
+		return chatMessage.getFlag('bugwhisper', 'whisperTargets');
+	}
+
+	static formatWhisperLite = (string) => `To: ${string}`;
+
+	static formatWhisperNonLite = (string) => ` (To ${string})`;
 }
