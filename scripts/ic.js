@@ -46,7 +46,6 @@ export default class InCharacterMessage extends AbstractMessage {
 		const realWhisperTargets = this.getRealWhisperTargets(chatMessage);
 		const whisperTo = (realWhisperTargets && realWhisperTargets.length > 0) ? realWhisperTargets : messageData.whisperTo;
 		const whisperTargets = this.getWhisperTargets(whisperTo, messageData.alias);
-		console.warn(whisperTargets);
 
 		let renderData = {
 			avatar,

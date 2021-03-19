@@ -47,7 +47,6 @@ export default class AbstractMessage {
 	}
 
 	static getWhisperTargets(names, speaker) {
-		console.warn(names, speaker);
 		if (typeof names === "string" && names.trim().length === 0) {
 			return "";
 		}
@@ -56,9 +55,8 @@ export default class AbstractMessage {
 		}
 		if (names && names.join) {
 			const validNames = names.filter((name) => name !== speaker);
-			console.warn(validNames);
 			if (validNames.length === 0) return "";
-			const namesString = validNames.join();
+			const namesString = validNames.join(', ');
 			return namesString;
 		}
 		return "";
