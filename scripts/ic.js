@@ -46,6 +46,7 @@ export default class InCharacterMessage extends AbstractMessage {
 		const realWhisperTargets = this.getRealWhisperTargets(chatMessage);
 		const whisperTo = (realWhisperTargets && realWhisperTargets.length > 0) ? realWhisperTargets : messageData.whisperTo;
 		const whisperTargets = this.getWhisperTargets(whisperTo, messageData.alias);
+		console.warn(whisperTargets);
 
 		let renderData = {
 			avatar,
@@ -248,7 +249,7 @@ export default class InCharacterMessage extends AbstractMessage {
 		return chatMessage.getFlag('bugwhisper', 'whisperTargets');
 	}
 
-	static formatWhisperLite = (string) => `To: ${string}`;
+	static formatWhisperLite = (string) => string ? `To: ${string}` : '';
 
-	static formatWhisperNonLite = (string) => ` (To ${string})`;
+	static formatWhisperNonLite = (string) => string ? ` (To ${string})` : '';
 }
