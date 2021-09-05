@@ -1,29 +1,17 @@
-{{#if isContinuation}}
-
-    <div class="avatar-placeholder">
-    </div>
-    <div class="content">
-        <div class="message-timestamp">{{timeSince timestamp}}</div>
-        {{{content}}}
-    </div>
-    
-{{else}}
-
-    <div class="avatar">
-        <img src="{{avatar}}" />
-    </div>
-    <div class="content">
-        <div class="message-timestamp">{{timeSince timestamp}}</div>
-        <span class="message-speaker">
-            {{#if isWhisper}}
-                {{speaker}}<span class="message-whisper-targets">{{whisperTo}}</span>:
-            {{else}}
-                {{speaker}}:
-            {{/if}}
-        </span>
-        {{#unless isRoll}}{{{content}}}{{/unless}}
-    </div>
-    {{#if isRoll}}
-        <div class="roll-content">{{{content}}}</div>
-    {{/if}}
+<div class="avatar">
+    <img src="{{avatar}}" />
+</div>
+<div class="content">
+    <div class="message-timestamp">{{timeSince timestamp}}</div>
+    <span class="message-speaker">
+        {{#if isWhisper}}
+            {{speaker}}<span class="message-whisper-targets">{{whisperTo}}</span>:
+        {{else}}
+            {{speaker}}:
+        {{/if}}
+    </span>
+    {{#unless isRoll}}{{{content}}}{{/unless}}
+</div>
+{{#if isRoll}}
+    <div class="roll-content">{{{content}}}</div>
 {{/if}}

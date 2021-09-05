@@ -49,8 +49,12 @@
 		}
 
 		&.continued {
-			.message-header {
+			.message-header, .message-speaker {
 				display: none;
+			}
+			.avatar {
+				visibility: hidden;
+				height: 1px;
 			}
 			border-top: none;
 			border-bottom: none;
@@ -178,8 +182,13 @@
 				width: $avatar-width;
 			}
 
-			.message-timestamp {
+			.message-timestamp, .message-speaker {
 				display: none;
+			}
+
+			.avatar {
+				visibility: hidden;
+				height: 1px;
 			}
 		}
 
