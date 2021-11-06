@@ -10,7 +10,9 @@
             {{speaker}}:
         {{/if}}
     </span>
-    {{#unless isRoll}}{{{content}}}{{/unless}}
+    <span class="message-content">
+        {{#unless isRoll}}{{{content}}}{{/unless}}
+    </span>
 </div>
 {{#if isRoll}}
     <div class="roll-content">{{{content}}}</div>
